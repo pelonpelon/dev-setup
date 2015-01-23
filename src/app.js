@@ -21,35 +21,60 @@ var MODAL = 2;
 var TODOS = 3;
 var XP = 4;
 
-var app = function(tabNumber){
+var app = function(tabNumber) {
   return {
     controller: function() {
       // initialize the pages as singletons
-      this.todos       = require('./components/todos').instance();
-      this.accordion1  = require('./components/demos/accordion').instance();
-      this.accordion2  = require('./components/demos/accordion').instance({toggle:true});
-      this.modal       = require('./components/demos/modal').instance();
-      this.experimental= require('./components/experimental/todosX').instance();
+      this.todos = require('./components/todos').module.instance();
+      this.accordion1 = require('./components/demos/accordion').module.instance();
+      this.accordion2 = require('./components/demos/accordion').module.instance({
+        toggle: true
+      });
+      this.modal = require('./components/demos/modal').module.instance();
+      this.experimental = require('./components/experimental/todosX').module.instance();
     },
-    
+
     view: function(ctrl) {
       return [
-        m('jumbotron',[
-          m('h1','Mithril Starter Kit'),
-          m('h3','with Mithril.Elements v0.1.1')
+        m('jumbotron', [
+          m('h1', 'Mithril Starter Kit'),
+          m('h3', 'with Mithril.Elements v0.1.1')
         ]),
         m('h2.text-center', 'Click on any of the tab pills below'),
-        m('h4.text-center','to reveal some custom elements in action'),
-        m('tabset', {state:{active:tabNumber, style:'pills'}}, 
-          // provide routng to the tabs to engage route history
-          function(){ return [
-            m('tab', {state:{href:'/accordion-1'}}, ['Accordion 1', m(ctrl.accordion1)]),
-            m('tab', {state:{href:'/accordion-2'}}, ['Accordion 2', m(ctrl.accordion2)]),
-            m('tab', {state:{href:'/modal'}},       ['Modal dialog', m(ctrl.modal)]),
-            m('tab', {state:{href:'/todos'}},       ['Todo List', m(ctrl.todos)]),
-            m('tab', {state:{href:'/todos-xp'}},    ['Experimental', m(ctrl.experimental)])
-          ];
-        })
+        m('h4.text-center', 'to reveal some custom elements in action'),
+        m('tabset', {
+          state: {
+            active: tabNumber,
+            style: 'pills'
+          }
+        }, [
+            m('tab', {
+              state: {
+                href: '/accordion-1'
+              }
+            }, ['Accordion 1', m(ctrl.accordion1)]),
+            m('tab', {
+              state: {
+                href: '/accordion-2'
+              }
+            }, ['Accordion 2', m(ctrl.accordion2)]),
+            m('tab', {
+              state: {
+                href: '/modal'
+              }
+            }, ['Modal dialog', m(ctrl.modal)]),
+            m('tab', {
+              state: {
+                href: '/todos'
+              }
+            }, ['Todo List', m(ctrl.todos)]),
+            m('tab', {
+              state: {
+                href: '/todos-xp'
+              }
+            }, ['Experimental', m(ctrl.experimental)])
+          ]
+        )
       ];
     }
   };
