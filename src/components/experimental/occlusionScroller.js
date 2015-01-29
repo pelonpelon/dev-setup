@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = m.element('occlusionScroller',{
+module.exports = me.element('occlusionScroller', {
 
   // Component controllers are instanced with optional data.
   // This data is part of the interface definition that users
@@ -12,11 +12,13 @@ module.exports = m.element('occlusionScroller',{
 
     this.items = model.items;
     this.page = model.page;
-    this.itemHeight=58;
-    var scroller={scrollTop:0};
+    this.itemHeight = 58;
+    var scroller = {
+      scrollTop: 0
+    };
 
-    this.setup = function(element,done){
-      if (!done){
+    this.setup = function(element, done) {
+      if (!done) {
         scroller = element;
         element.addEventListener('scroll', function(e) {
           m.redraw(); //notify view
@@ -24,7 +26,7 @@ module.exports = m.element('occlusionScroller',{
       }
     };
 
-    this.pageY = function(){
+    this.pageY = function() {
       return scroller.scrollTop;
     };
 
@@ -39,7 +41,7 @@ module.exports = m.element('occlusionScroller',{
     // controller method will be bound to the component controller
     // throuth the model interface and will return a reference to an 
     // external list.
-    var items = typeof ctrl.items === 'function'? ctrl.items():ctrl.items;
+    var items = typeof ctrl.items === 'function' ? ctrl.items() : ctrl.items;
 
     // calculate the begin and end indicies of the scrollable section
     var begin = ctrl.pageY() / ctrl.itemHeight | 0;
@@ -49,28 +51,47 @@ module.exports = m.element('occlusionScroller',{
     var end = begin + ctrl.page + 2;
 
     var offset = ctrl.pageY % ctrl.itemHeight;
-    var height = Math.min(items.length,ctrl.page) * ctrl.itemHeight + 'px';
+    var height = Math.min(items.length, ctrl.page) * ctrl.itemHeight + 'px';
 
     // add our own identity and style to the element. Note that any values
     // created here may be overridden by the component instance
-    return m('.occlusionScroller', {style:{overflow:'scroll', height: height},config:ctrl.setup}, [
-      
-      m('.list', {style: {height: items.length * ctrl.itemHeight + 'px', position: 'relative', top: -offset + 'px'}}, [
-        m('ul', {style: {paddingTop: ctrl.pageY() + 'px'}}, [
+    return me('.occlusionScroller', {
+      style: {
+        overflow: 'scroll',
+        height: height
+      },
+      config: ctrl.setup
+    }, [
 
-          // merge the page content into the flow with a standard map
-          items.slice(begin, end).map(function(item, idx) {
+        m('.list', {
+          style: {
+            height: items.length * ctrl.itemHeight + 'px',
+            position: 'relative',
+            top: -offset + 'px'
+          }
+        }, [
+            m('ul', {
+              style: {
+                paddingTop: ctrl.pageY() + 'px'
+              }
+            }, [
 
-            // register the child template. Notice that we 
-            // are passing it as an object and not as a string tagname.
-            // Mithril.Element can distinguish between compiled components 
-            // and precompiled cells
-            // 
-            return m(template, {id:idx+begin,state:item});
-          })
+                // merge the page content into the flow with a standard map
+                items.slice(begin, end).map(function(item, idx) {
 
-        ])
-      ])
-    ]);  
+                  // register the child template. Notice that we 
+                  // are passing it as an object and not as a string tagname.
+                  // Mithril.Element can distinguish between compiled components 
+                  // and precompiled cells
+                  // 
+                  return me(template, {
+                    id: idx + begin,
+                    state: item
+                  });
+                })
+
+              ])
+          ])
+      ]);
   }
 });
