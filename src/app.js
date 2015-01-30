@@ -28,6 +28,12 @@ require('./components/demos/modal');
 require('./components/todos');
 require('./components/experimental/todosX');
 
+m.tags.tab = {
+  view:function(ctrl){
+    return m('h1',ctrl.children[0]);
+  }
+};
+
 var app = function(tabNumber){
   return {
     controller: function() {
@@ -50,7 +56,8 @@ var app = function(tabNumber){
             m('tab', {href:'/todos'},       ['Todo List', m('todos-demo')]),
             m('tab', {href:'/todos-xp'},    ['Experimental', m('todosX-demo')])
           ]
-        )
+        ),
+        m('tab','Mine\'s a whiskey!')
       ];
     }
   };

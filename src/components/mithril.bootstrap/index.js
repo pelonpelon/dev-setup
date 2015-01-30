@@ -49,7 +49,6 @@ m.tags.accordion = {
 };
 
 m.tags.jumbotron = {
-  controller:identity,
   view: function(ctrl) {
     return m('.jumbotron',[
       m('.container',[
@@ -111,9 +110,9 @@ m.tags.modal = {
 //  style: 'tabs' | 'pills'
 
 m.tags.tabset = {
-  controller: function(data){
+  controller: function(){
 
-    var options = data.attrs;
+    var options = this.attrs;
     var currentTab = options.active;
 
     this.style=options.style || 'tabs';
@@ -130,7 +129,7 @@ m.tags.tabset = {
       return {display: (tabIdx===currentTab? 'block':'none')};
     };
 
-    m.tags.tab = {
+    this.tags.tab = {
       controller: function(data){
         var href = data.attrs.href;
         this.tabIdx=data.attrs.id;

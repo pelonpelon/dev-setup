@@ -67,7 +67,7 @@ var m = (function app(window, undefined) {
     }
     return cell
   }
-  function build(parentElement, parentTag, parentCache, parentIndex, data, cached, shouldReattach, index, editable, namespace, configs) {
+  function build(parentElement, parentTag, parentCache, parentIndex, data, cached, shouldReattach, index, editable, namespace, configs, parentTags) {
     //`build` is a recursive function that manages creation/diffing/removal of DOM elements based on comparison between `data` and `cached`
     //the diff algorithm can be summarized as this:
     //1 - compare `data` and `cached`
@@ -110,6 +110,7 @@ var m = (function app(window, undefined) {
       if (cached.tag) cached = {}; //if constructor creates a virtual dom element, use a blank object as the base cached node instead of copying the virtual el (#277)
       cached.nodes = []
     }
+    if (!parentTags) parentTags = {}
 
     if (dataType === ARRAY) {
       //recursively flatten array
@@ -202,7 +203,7 @@ var m = (function app(window, undefined) {
 
       for (var i = 0, cacheCount = 0, len = data.length; i < len; i++) {
         //diff each item in the array
-        var item = build(parentElement, parentTag, cached, index, data[i], cached[cacheCount], shouldReattach, index + subArrayCount || subArrayCount, editable, namespace, configs);
+        var item = build(parentElement, parentTag, cached, index, data[i], cached[cacheCount], shouldReattach, index + subArrayCount || subArrayCount, editable, namespace, configs, parentTags);
         if (item === undefined) continue;
         if (!item.nodes.intact) intact = false;
         if (item.$trusted) {
@@ -231,14 +232,16 @@ var m = (function app(window, undefined) {
       }
     }
     else if (data != null && dataType === OBJECT) {
-      var module = m.tags[data.tag], controller = cached.controller
+      var module = parentTags[data.tag] || m.tags[data.tag], controller = cached.controller, tags = parentTags
       if (module) {
         if (!controller) {
           var constructor = module.controller || m.prop()
           for (var prop in constructor.prototype) data[prop] = constructor.prototype[prop]
+          data.tags = {}
           controller = constructor.call(data, data) || data
           if (!controller.attrs) controller.attrs = {}
         }
+        tags = controller.tags;
         controller.tag = data.tag
         for (var attr in data.attrs) controller.attrs[attr] = data.attrs[attr]
         controller.children = data.children
@@ -271,7 +274,7 @@ var m = (function app(window, undefined) {
           //set attributes first, then create children
           attrs: hasKeys ? setAttributes(node, data.tag, data.attrs, {}, namespace) : data.attrs,
           children: data.children != null && data.children.length > 0 ?
-            build(node, data.tag, undefined, undefined, data.children, cached.children, true, 0, data.attrs.contenteditable ? node : editable, namespace, configs) :
+            build(node, data.tag, undefined, undefined, data.children, cached.children, true, 0, data.attrs.contenteditable ? node : editable, namespace, configs, tags) :
             data.children,
           nodes: [node]
         };
@@ -285,7 +288,7 @@ var m = (function app(window, undefined) {
       else {
         node = cached.nodes[0];
         if (hasKeys) setAttributes(node, data.tag, data.attrs, cached.attrs, namespace);
-        cached.children = build(node, data.tag, undefined, undefined, data.children, cached.children, false, 0, data.attrs.contenteditable ? node : editable, namespace, configs);
+        cached.children = build(node, data.tag, undefined, undefined, data.children, cached.children, false, 0, data.attrs.contenteditable ? node : editable, namespace, configs, tags);
         cached.nodes.intact = true;
         if (shouldReattach === true && node != null) parentElement.insertBefore(node, parentElement.childNodes[index] || null)
       }
