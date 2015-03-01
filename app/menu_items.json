@@ -1,0 +1,66 @@
+[
+  {
+    "title": "Intro",
+    "author": "",
+    "source": "",
+    "link": "",
+    "note": "",
+    "url": "/"
+  },
+  {
+    "title": "Front Page Example",
+    "author": "Leo Horie",
+    "source": "Mithril Home Page",
+    "link": "http://lhorie.github.io/mithril/index.html",
+    "note": "",
+    "url": "/example"
+  },
+  {
+    "title": "Animation",
+    "author": "Leo Horie",
+    "source": "Mithril Blog",
+    "link": "http://lhorie.github.io/mithril-blog/velocity-animations-in-mithril.html",
+    "note": "velocity.js",
+    "url": "/animation"
+  },
+  {
+    "title": "Incremental Search",
+    "author": "Leo Horie",
+    "source": "Mithril Blog",
+    "link": "http://lhorie.github.io/mithril-blog/organizing-components.html",
+    "note": "organizing components",
+    "url": "/components"
+  },
+  {
+    "title": "Seinfeld",
+    "author": "Leo Horie",
+    "source": "Mithril Blog",
+    "link": "http://lhorie.github.io/mithril-blog/building-a-seinfeld-app.html",
+    "note": "bi-directional data binding",
+    "url": "/binding"
+  },
+  {
+    "title": "Modal",
+    "author": "Leo Horie",
+    "source": "Human Design",
+    "link": "https://github.com/HumanDesign/mithril-modal",
+    "note": "",
+    "url": "/modal"
+  },
+  {
+    "title": "About",
+    "author": "",
+    "source": "",
+    "link": "",
+    "note": "the making of this app",
+    "url": "/about"
+  },
+  {
+    "title": "Credits",
+    "author": "",
+    "source": "",
+    "link": "",
+    "note": "the wizards behind mithril",
+    "url": "/credits"
+  }
+]
