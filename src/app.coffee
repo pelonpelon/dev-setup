@@ -16,7 +16,7 @@ if window.document.location.host == 'sf-eagle.com'
 else
   console.log 'not on sf-eagle.com :: events from localStorage'
   eventsUrl = config.version + '/assets/events.json'
-logoUrl =  config.version + '/assets/logo-trans-black-200.png'
+logoUrl =  config.version + '/assets/new_trans-200.png'
 
 getEvents = ->
   console.log 'removing events from localStorage'
@@ -61,4 +61,5 @@ Page = (module) ->
 m.route document.getElementById("container"), "/",
   "/": new Page(require('./components/Logo/Logo.controller'))
   "/storm": new Page(require('./components/Storm/Storm.controller'))
+  "/events": new Page(require('./components/Events/Events.controller'))
 

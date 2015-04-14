@@ -34,14 +34,14 @@ Menu.vm = (->
     content = document.querySelector(".content-wrap")
 
     vm.toggleMenu = (url) ->
-      console.log 'url: ', url
+      # console.log 'url: ', url
       if bodyEl.classList.contains('show-menu')
         classie.remove bodyEl, "show-menu"
         vm.isOpen(false)
       else
         classie.add bodyEl, "show-menu"
         vm.isOpen(true)
-      console.log 'after toggleMenu', 'isOpen: ', vm.isOpen()
+      # console.log 'after toggleMenu', 'isOpen: ', vm.isOpen()
       if not url.target then window.location.href = url
       return
       # if ev.target is document.getElementById('open-button')

@@ -4,27 +4,32 @@
 !_TAG_PROGRAM_NAME	CoffeeTags	//
 !_TAG_PROGRAM_URL	https://github.com/lukaszkorecki/CoffeeTags	/GitHub repository/
 !_TAG_PROGRAM_VERSION	0.2.1	//
-Event	components/Events/Events.model.coffee	/^Event = (data)->$/;"	f	lineno:6	object:window	type:function
+Event	components/Events/Events.model.coffee	/^Event = (event)->$/;"	f	lineno:8	object:window	type:function
 Page	app.coffee	/^Page = (module) ->$/;"	f	lineno:44	object:window	type:function
 controller	app.coffee	/^    controller: ->$/;"	f	lineno:46	object:Page	type:function
+controller	components/Events/Events.controller.coffee	/^Events.controller = ->$/;"	f	lineno:6	object:window	type:function
 controller	components/Logo/Logo.controller.coffee	/^Logo.controller = ->$/;"	f	lineno:7	object:window	type:function
 controller	components/Menu/Menu.controller.coffee	/^Menu.controller = ->$/;"	f	lineno:7	object:window	type:function
 controller	components/Storm/Storm.controller.coffee	/^Storm.controller = ->$/;"	f	lineno:6	object:window	type:function
 controller	components/header/header.controller.coffee	/^header.controller = ->$/;"	f	lineno:6	object:window	type:function
 getEvents	app.coffee	/^getEvents = ->$/;"	f	lineno:21	object:window	type:function
 importFontsAwesome	app.coffee	/^importFontsAwesome = ->$/;"	f	lineno:33	object:window	type:function
+init	components/Events/Events.model.coffee	/^  vm.init = ->$/;"	f	lineno:57	object:vm	type:function
 init	components/Menu/Menu.model.coffee	/^  vm.init = ->$/;"	f	lineno:11	object:vm	type:function
 init	components/Menu/main.coffee	/^  init = ->$/;"	f	lineno:2	object:window	type:function
 init	components/header/header.model.coffee	/^  vm.init = ->$/;"	f	lineno:6	object:vm	type:function
 initEvents	components/Menu/main.coffee	/^  initEvents = ->$/;"	f	lineno:6	object:window	type:function
+list	components/Events/Events.model.coffee	/^Event.list = ->$/;"	f	lineno:44	object:window	type:function
 req	app.coffee	/^req = (args)->$/;"	f	lineno:10	object:window	type:function
 todaysEvents	common/events_sql.coffee	/^  todaysEvents = events.filter (event)->$/;"	f	lineno:18	object:window	type:function
 toggleMenu	components/Menu/Menu.model.coffee	/^    vm.toggleMenu = (url) ->$/;"	f	lineno:36	object:vm.init	type:function
 view	app.coffee	/^    view: (ctrl) ->$/;"	f	lineno:49	object:Page	type:function
+view	components/Events/Events.view.coffee	/^Events.view = (ctrl)->$/;"	f	lineno:6	object:window	type:function
 view	components/Logo/Logo.controller.coffee	/^Logo.view = (ctrl) ->$/;"	f	lineno:9	object:window	type:function
 view	components/Menu/Menu.view.coffee	/^Menu.view = (ctrl) ->$/;"	f	lineno:6	object:window	type:function
 view	components/Storm/Storm.controller.coffee	/^Storm.view = (ctrl) ->$/;"	f	lineno:10	object:window	type:function
 view	components/header/header.view.coffee	/^header.view = (ctrl) ->$/;"	f	lineno:6	object:window	type:function
+vm	components/Events/Events.model.coffee	/^Events.vm = (->$/;"	f	lineno:55	object:window	type:function
 vm	components/Menu/Menu.model.coffee	/^Menu.vm = (->$/;"	f	lineno:8	object:window	type:function
 vm	components/header/header.model.coffee	/^header.vm = (->$/;"	f	lineno:4	object:window	type:function
 wrap	components/Menu/main.coffee	/^  togglemenu-wrap = ->$/;"	f	lineno:18	object:window	type:function

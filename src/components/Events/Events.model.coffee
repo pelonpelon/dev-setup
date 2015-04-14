@@ -1,47 +1,65 @@
 'use strict'
 # Events.model.coffee
 
+config = require '../../../myprivateconfig.js'
+
 Events = {}
 
-Event = (data)->
-  data = data or {}
-  @_dp_original = data._dp_original
-  @_thumbnail_id = data._thumbnail_id
-  @band_1 = data['band_#1']
-  @band_1_link = data.['band_#1_link']
-  @band_2 = data.['band_#2']
-  @band_2_link = data.['band_#2_link']
-  @band_3 = data.['band_#3']
-  @band_3_link = data.['band_#3_link']
-  @band_4 = data.['band_#4']
-  @band_4_link = data.['band_#4_link']
-  @contact_name = data.contact_name
-  @crowd = data.crowd.match(/\w{3,}/g)
-  @date = data.date
-  @date_num = data.date_num
-  @dj_name = data.dj_name
-  @endtime = data.endtime
-  @include_a_lead = data.include_a_lead
-  @include_title = data.include_title
-  @link = data.link
-  @notes = data.notes
-  @price = data.price
-  @promoter = data.promoter
-  @promoter_link = data.promoter_link
-  @publish = data.publish
-  @tease = data.tease
-  @time = data.time
-  @title = data.title
-  @title_thumbnail = data.title_thumbnail
-  @web_site = data.web_site
-  @weekly = data.weekly
+Event = (event)->
+  @_dp_original = event._dp_original
+  @_thumbnail_id = event._thumbnail_id
+  @_wp_attached_file = event._wp_attached_file
+  @band_1 = event['band_#1']
+  @band_1_link = event['band_#1_link']
+  @band_2 = event['band_#2']
+  @band_2_link = event['band_#2_link']
+  @band_3 = event['band_#3']
+  @band_3_link = event['band_#3_link']
+  @band_4 = event['band_#4']
+  @band_4_link = event['band_#4_link']
+  @blurb = event.blurb
+  @contact_name = event.contact_name
+  @contact_phone = event.contact_phone
+  @contact_email = event.contact_email
+  @crowd = if event.crowd then event.crowd.match(/\w{3,}/g) else undefined
+  @date = event.date
+  @date_num = event.date_num
+  @dj_name = event.dj_name
+  @endtime = event.endtime
+  @include_a_lead = event.include_a_lead
+  @include_title = event.include_title
+  @link = event.link
+  @notes = event.notes
+  @price = event.price
+  @promoter = event.promoter
+  @promoter_link = event.promoter_link
+  @publish = event.publish
+  @tease = event.tease
+  @time = event.time
+  @title = event.title
+  @title_thumbnail = event.title_thumbnail
+  @web_site = event.web_site
+  @weekly = event.weekly
 
-req (args)->
-  m.request(args)
+Event.list = ->
+  return m.request
+    method: 'GET'
+    url: '/' + config.version + '/assets/events.json'
+    type: Event
+  .then (events)->
+    console.log 'events: ', events
+    localStorage.removeItem 'events'
+    localStorage.setItem 'events', JSON.stringify(events)
+    return events
 
-m.request
-  method: 'GET'
-  url: config.version + '/assets/events.json'
-  type: Events.Event
-.then (events)->
-  localStorage.setItem 'events', JSON.stringify(events)
+Events.vm = (->
+  vm = {}
+  vm.init = ->
+    vm.events = Event.list()
+    console.log 'vm.events:', vm.events()
+    vm
+
+  vm
+)()
+
+module.exports = Events
