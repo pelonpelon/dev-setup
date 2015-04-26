@@ -1,5 +1,4 @@
 'use strict'
-# app.js
 
 config = require('../gulp-config.js')
 require './styles/app.styl'
@@ -17,6 +16,16 @@ else
   console.log 'not on sf-eagle.com :: events from localStorage'
   eventsUrl = config.version + '/assets/events.json'
 logoUrl =  config.version + '/assets/new_trans-200.png'
+
+# TODO: m.request in background, use localstorage as initialValue
+
+fillSplash = ->
+  el = document.getElementById 'container' 
+  console.log 'el',el
+  el.style.background = 'center no-repeat'
+  el.style.backgroundImage = "url('rogue/assets/new_trans-200.png')"
+
+fillSplash()
 
 getEvents = ->
   console.log 'removing events from localStorage'

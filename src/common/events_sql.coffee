@@ -27,6 +27,7 @@ if localStorage.getItem('events')
   else
     console.log 'found .todays-events'
     divToday = alreadyTodaysEvents
+    #//-TODO: if TNL show bands
   divToday.innerHTML = '<div class="dayLabel">' + weekdays[today.getDay()] + '</div><hr>'
   for event in todaysEvents
     start = (event.time).replace(/:00/, '')
