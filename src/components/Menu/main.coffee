@@ -4,22 +4,22 @@
     return
 
   initEvents = ->
-    openbtn.addEventListener "click", toggleMenu
-    closebtn.addEventListener "click", toggleMenu  if closebtn
+    openbtn.addEventListener "click", togglemenu-wrap
+    closebtn.addEventListener "click", togglemenu-wrap  if closebtn
 
-    # close the menu element if the target it´s not the menu element or one of its descendants..
+    # close the menu-wrap element if the target it´s not the menu-wrap element or one of its descendants..
     content.addEventListener "click", (ev) ->
       target = ev.target
-      toggleMenu()  if isOpen and target isnt openbtn
+      togglemenu-wrap()  if isOpen and target isnt openbtn
       return
 
     return
 
-  toggleMenu = ->
+  togglemenu-wrap = ->
     if isOpen
-      classie.remove bodyEl, "show-menu"
+      classie.remove bodyEl, "show-menu-wrap"
     else
-      classie.add bodyEl, "show-menu"
+      classie.add bodyEl, "show-menu-wrap"
     isOpen = not isOpen
     return
 

@@ -6,6 +6,7 @@
 'use strict';
 
 var webpack = require('webpack');
+var config = require('../myprivateconfig.js');
 
 /**
  * Get configuration for Webpack
@@ -21,11 +22,13 @@ module.exports = function(release, watch) {
   return {
     cache: !release,
     debug: !release,
+    colors: !release,
     devtool: 'eval',
     watch: watch,
 
     output: {
-      filename: 'bundle.js'
+      filename: 'bundle.js',
+      path: __dirname + '/' + config.version
     },
 
     stats: {
@@ -41,6 +44,7 @@ module.exports = function(release, watch) {
       new webpack.optimize.UglifyJsPlugin(),
       new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.optimize.AggressiveMergingPlugin()
+      // new ExtractTextPlugin('styles.css')
     ] : [],
 
     resolve: {
@@ -49,7 +53,7 @@ module.exports = function(release, watch) {
         'bower_components'
       ],
       alias: {
-        mithril: '../node_modules/mithril/mithril.min.js',
+        mithril: release ? '../node_modules/mithril/mithril.min.js' : '../node_modules/mithril/mithril.js',
         //   "mithril.elements": "../node_modules/mithril.elements/mithril.elements.js"
       },
       extensions: ['', '.web.coffee', '.webpack.coffee', '.coffee', '.webpack.js', '.web.js', '.js', '.msx']
@@ -65,10 +69,26 @@ module.exports = function(release, watch) {
       ],
 
       loaders: [
-        // loading every .js file ca be slow. Use this per file instead: import Animal from "babel!./Animal.js";
+
+        // {
+          // test: /\.(otf|eot|png|svg|ttf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          // loader: 'file-loader'
+        // },
+        // {
+          // test: /\.svg$/,
+          // test: /\.(svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          // loader: 'url-loader?limit=10000&minetype=application/font-woff'
+          // loader: 'file-loader'
+        // },
+        // {test: /\.woff($|\?)/, loader: 'url-loader?limit=10000&minetype=application/font-woff' },
+        // { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&minetype=application/font-woff' },
+        // { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
+
         {
-          test: /\.js$/, exclude: /node_modules/,
-          loader: 'babel-loader'
+          test: /\.es6\.js$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader',
+          query: 'cacheDirectory=config'
         },
         {
           test: /\.coffee$/,
@@ -84,7 +104,7 @@ module.exports = function(release, watch) {
         },
         {
           test: /\.styl/,
-          loader: 'style!css!stylus'
+          loader: 'style!css?sourceMap!stylus?sourcemap=true&resolve-url=true'
         },
         {
           test: /\.less$/,

@@ -1,35 +1,74 @@
-# app.js
-"use strict"
-config = require("../gulp-config.js")
-require "./styles/app.styl"
-window.m = require("mithril")
+'use strict'
+
+config = require('../gulp-config.js')
+require './styles/app.styl'
+fastclick = require('fastclick')
+fastclick.attach(document.body)
+window.m = require('mithril')
 
 req = (args)->
   m.request(args)
 
-logoUrl =  config.version + '/assets/logo-trans-black-240.png'
-eventsUrl = config.version + '/assets/events.json'
+if window.document.location.host == 'sf-eagle.com'
+  console.log 'grabbing events from sf-eagle DB'
+  eventsUrl = 'http://sf-eagle.com/cgi-bin/events.cgi'
+else
+  console.log 'not on sf-eagle.com :: events from localStorage'
+  eventsUrl = config.version + '/assets/events.json'
+logoUrl =  config.version + '/assets/new_trans-200.png'
+
+# TODO: m.request in background, use localstorage as initialValue
+
+fillSplash = ->
+  el = document.getElementById 'container' 
+  console.log 'el',el
+  el.style.background = 'center no-repeat'
+  el.style.backgroundImage = "url('rogue/assets/new_trans-200.png')"
+
+fillSplash()
 
 getEvents = ->
-  req({method: 'GET', url: eventsUrl }).then (events)->
-    localStorage.setItem('events', JSON.stringify(events))
+  console.log 'removing events from localStorage'
+  localStorage.removeItem('events')
+  req({method: 'GET', url: eventsUrl })
+    .then (events)->
+      localStorage.setItem('events', JSON.stringify(events))
+    .then ()->
+      console.log 'added events to localStorage' if localStorage.hasOwnProperty('events')
+      require './common/events_sql.coffee'
 
 getEvents()
 
-myapp = ->
-  controller: ->
+importFontsAwesome = ->
+  fa = window.document.createElement 'link'
+  fa.rel= "stylesheet"
+  fa.href= "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+  document.head.appendChild fa
 
-  view: (ctrl) ->
-    m "a[href=\"http://sf-eagle.com\"]", title: "SF-Eagle.com",
-      m ".logo"
-        # m "img", src: logoUrl, width: '240', height: '240'
+importFontsAwesome()
 
-header = require("./components/header/header.controller")
-m.module document.getElementById("header"), header
+Menu = require './components/Menu/Menu.controller'
+header = require "./components/header/header.controller"
 
-# footer = require("./components/footer/footer.controller")
-# m.module document.getElementById("footer"), footer
+Page = (module) ->
+  return {
+    controller: ->
+      window.document.body.classList.remove('show-menu')
+      new module.controller
+    view: (ctrl) ->
+      [
+        m '.menu-wrap', Menu.view(new Menu.controller)
+        m 'button.menu-button#open-button', onclick: Menu.vm.toggleMenu
+        m '.content-wrap',
+          [
+            m '.header', header.view(new header.controller)
+            m '.content', module.view(ctrl)
+          ]
+      ]
+  }
 
-m.route document.getElementById("main"), "/",
-  "/": myapp()
+m.route document.getElementById("container"), "/",
+  "/": new Page(require('./components/Logo/Logo.controller'))
+  "/storm": new Page(require('./components/Storm/Storm.controller'))
+  "/events": new Page(require('./components/Events/Events.controller'))
 

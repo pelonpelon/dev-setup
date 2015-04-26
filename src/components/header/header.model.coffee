@@ -1,4 +1,5 @@
 "use strict"
+
 header = {}
 header.vm = (->
   vm = {}
@@ -6,7 +7,6 @@ header.vm = (->
     vm.title = "Under Development"
     vm.subtitle = "future home of sf-eagle.com  2.0"
 
-    # nothing
     vm
 
   vm
